@@ -39,30 +39,35 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
 
         {/* Modal */}
         <motion.div
-          className="relative z-10 w-full max-w-2xl rounded-3xl border border-white/10 overflow-hidden"
+          className="relative z-10 w-full max-w-4xl rounded-3xl border border-white/10 overflow-hidden"
           style={{
             background: "linear-gradient(135deg, #12121A 0%, #0A0A0F 100%)",
             boxShadow: "0 0 80px rgba(91,79,255,0.2), 0 30px 60px rgba(0,0,0,0.8)",
+            maxHeight: "90vh",
+            display: "flex",
+            flexDirection: "column",
           }}
           initial={{ scale: 0.9, y: 20, opacity: 0 }}
           animate={{ scale: 1, y: 0, opacity: 1 }}
           exit={{ scale: 0.9, y: 20, opacity: 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
-          {/* Image */}
+          {/* Image — taller, clearer */}
           {project.picture_url && (
-            <div className="relative w-full h-52 overflow-hidden">
+            <div className="relative w-full overflow-hidden" style={{ height: "320px", flexShrink: 0 }}>
               <img
                 src={project.picture_url}
                 alt={project.title}
                 className="w-full h-full object-cover"
+                style={{ objectPosition: "top center" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#12121A]" />
+              {/* Very light bottom fade only */}
+              <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-[#12121A]" />
             </div>
           )}
 
-          {/* Content */}
-          <div className="p-8">
+          {/* Content — scrollable */}
+          <div className="p-8 overflow-y-auto flex-1">
             <div className="flex items-start justify-between gap-4">
               <h3
                 className="text-2xl font-black text-white tracking-tight"
@@ -82,7 +87,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
 
             {project.description && (
               <div
-                className="mt-5 prose prose-sm prose-invert max-w-none text-white/60 leading-relaxed"
+                className="mt-5 prose prose-sm prose-invert max-w-none text-white/60 leading-relaxed modal-markdown"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{project.description}</ReactMarkdown>

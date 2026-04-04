@@ -3,25 +3,25 @@
 import { useRef, useEffect } from "react";
 
 const tools = [
-  { name: "React", logo: "https://cdn.worldvectorlogo.com/logos/react-2.svg" },
-  { name: "Next.js", logo: "https://cdn.worldvectorlogo.com/logos/next-js.svg" },
-  { name: "TypeScript", logo: "https://cdn.worldvectorlogo.com/logos/typescript.svg" },
-  { name: "Laravel", logo: "https://cdn.worldvectorlogo.com/logos/laravel-2.svg" },
-  { name: "Angular", logo: "https://cdn.worldvectorlogo.com/logos/angular-icon-1.svg" },
-  { name: "PHP", logo: "https://cdn.worldvectorlogo.com/logos/php-1.svg" },
-  { name: "MySQL", logo: "https://cdn.worldvectorlogo.com/logos/mysql-6.svg" },
-  { name: "Tailwind CSS", logo: "https://cdn.worldvectorlogo.com/logos/tailwindcss.svg" },
-  { name: "Figma", logo: "https://cdn.worldvectorlogo.com/logos/figma-icon-one-color.svg" },
-  { name: "JavaScript", logo: "https://cdn.worldvectorlogo.com/logos/javascript-1.svg" },
+  { name: "React",        logo: "https://cdn.simpleicons.org/react/61DAFB" },
+  { name: "Next.js",      logo: "https://cdn.simpleicons.org/nextdotjs/ffffff" },
+  { name: "TypeScript",   logo: "https://cdn.simpleicons.org/typescript/3178C6" },
+  { name: "Laravel",      logo: "https://cdn.simpleicons.org/laravel/FF2D20" },
+  { name: "Angular",      logo: "https://cdn.simpleicons.org/angular/DD0031" },
+  { name: "PHP",          logo: "https://cdn.simpleicons.org/php/777BB4" },
+  { name: "MySQL",        logo: "https://cdn.simpleicons.org/mysql/4479A1" },
+  { name: "Tailwind CSS", logo: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
+  { name: "Figma",        logo: "https://cdn.simpleicons.org/figma/F24E1E" },
+  { name: "JavaScript",   logo: "https://cdn.simpleicons.org/javascript/F7DF1E" },
 ];
 
-// Triplicate so when we snap back mid-copy, it's invisible
+// Triplicate so snap is invisible
 const tripled = [...tools, ...tools, ...tools];
 
-const ITEM_WIDTH = 90;
-const ITEM_GAP = 16;
-const STEP = ITEM_WIDTH + ITEM_GAP; // 106px per item
-const SINGLE_SET_WIDTH = tools.length * STEP; // width of one full set
+const ITEM_WIDTH = 80;
+const ITEM_GAP = 24;
+const STEP = ITEM_WIDTH + ITEM_GAP;
+const SINGLE_SET_WIDTH = tools.length * STEP;
 
 export default function TechStackSection() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -33,25 +33,18 @@ export default function TechStackSection() {
     const track = trackRef.current;
     if (!track) return;
 
-    // Start at second copy (offset = 1 set width) so we can scroll into first or third
     posRef.current = -SINGLE_SET_WIDTH;
     track.style.transform = `translateX(${posRef.current}px)`;
 
-    const speed = 0.6; // px per frame
+    const speed = 0.55;
 
     const animate = () => {
       if (!pausedRef.current) {
         posRef.current -= speed;
-
-        // When we've scrolled through one full set, snap back by exactly one set
-        // (jumping from copy 3 boundary → copy 2 boundary — visually identical)
         if (posRef.current <= -SINGLE_SET_WIDTH * 2) {
           posRef.current += SINGLE_SET_WIDTH;
         }
-
-        if (track) {
-          track.style.transform = `translateX(${posRef.current}px)`;
-        }
+        if (track) track.style.transform = `translateX(${posRef.current}px)`;
       }
       rafRef.current = requestAnimationFrame(animate);
     };
@@ -76,13 +69,13 @@ export default function TechStackSection() {
       <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "1px", background: "linear-gradient(to right, transparent, rgba(255,255,255,0.07), transparent)" }} />
 
       {/* Title */}
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
+      <div style={{ textAlign: "center", marginBottom: "22px" }}>
         <h2
           style={{
-            fontSize: "0.7rem",
+            fontSize: "0.65rem",
             fontWeight: 700,
-            color: "rgba(255,255,255,0.35)",
-            letterSpacing: "0.2em",
+            color: "rgba(255,255,255,0.3)",
+            letterSpacing: "0.22em",
             textTransform: "uppercase",
             fontFamily: "'Space Grotesk', sans-serif",
             margin: 0,
@@ -103,7 +96,7 @@ export default function TechStackSection() {
         {/* Right fade */}
         <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "180px", background: "linear-gradient(to left, #000000 30%, transparent)", zIndex: 10, pointerEvents: "none" }} />
 
-        {/* Track — translated by JS, overflow:visible so items aren't clipped */}
+        {/* Track */}
         <div
           ref={trackRef}
           style={{
@@ -111,6 +104,7 @@ export default function TechStackSection() {
             gap: `${ITEM_GAP}px`,
             willChange: "transform",
             width: "max-content",
+            padding: "4px 0",
           }}
         >
           {tripled.map((tool, i) => (
@@ -122,47 +116,38 @@ export default function TechStackSection() {
                 flexDirection: "column",
                 alignItems: "center",
                 gap: "8px",
-                padding: "10px 0",
                 width: `${ITEM_WIDTH}px`,
                 cursor: "default",
               }}
+              onMouseEnter={(e) => {
+                const img = (e.currentTarget as HTMLElement).querySelector("img") as HTMLElement;
+                if (img) img.style.opacity = "1";
+              }}
+              onMouseLeave={(e) => {
+                const img = (e.currentTarget as HTMLElement).querySelector("img") as HTMLElement;
+                if (img) img.style.opacity = "0.55";
+              }}
             >
-              <div
+              <img
+                src={tool.logo}
+                alt={tool.name}
                 style={{
-                  width: "44px",
-                  height: "44px",
-                  borderRadius: "10px",
-                  border: "1px solid rgba(255,255,255,0.07)",
-                  background: "rgba(255,255,255,0.03)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  transition: "border-color 0.3s, background 0.3s",
+                  width: "28px",
+                  height: "28px",
+                  objectFit: "contain",
+                  opacity: 0.55,
+                  transition: "opacity 0.25s",
+                  display: "block",
                 }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = "rgba(91,79,255,0.4)";
-                  el.style.background = "rgba(91,79,255,0.08)";
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = "rgba(255,255,255,0.07)";
-                  el.style.background = "rgba(255,255,255,0.03)";
-                }}
-              >
-                <img
-                  src={tool.logo}
-                  alt={tool.name}
-                  style={{
-                    width: "22px",
-                    height: "22px",
-                    objectFit: "contain",
-                    filter: "brightness(0) invert(1)",
-                    opacity: 0.55,
-                  }}
-                />
-              </div>
-              <span style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.3)", fontFamily: "'Inter', sans-serif", textAlign: "center", whiteSpace: "nowrap" }}>
+              />
+              <span style={{
+                fontSize: "0.6rem",
+                color: "rgba(255,255,255,0.28)",
+                fontFamily: "'Inter', sans-serif",
+                textAlign: "center",
+                whiteSpace: "nowrap",
+                letterSpacing: "0.04em",
+              }}>
                 {tool.name}
               </span>
             </div>

@@ -252,9 +252,6 @@ function DefaultFanCard({ item, active }: { item: CardStackItem; active: boolean
         <div className={cn("text-xl font-bold text-white tracking-tight transition-all duration-300", active && "text-2xl")}>
           {item.title}
         </div>
-        {item.description && (
-          <div className="mt-1.5 line-clamp-2 text-sm text-white/70">{item.description}</div>
-        )}
       </div>
     </div>
   );
