@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #000000;
+  --foreground: #FAFAFA;
+}
+
+/* Global bg override */
+html, body { background: #000000; }
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #09090B;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272A;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #5B4FFF;
+}
+
+/* Prose markdown styles */
+.prose-invert h1, .prose-invert h2, .prose-invert h3 {
+  color: rgba(255,255,255,0.9);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+}
+.prose-invert p {
+  color: rgba(255,255,255,0.6);
+  line-height: 1.8;
+}
+.prose-invert strong {
+  color: rgba(255,255,255,0.85);
+  font-weight: 600;
+}
+.prose-invert ul, .prose-invert ol {
+  color: rgba(255,255,255,0.6);
+  padding-left: 1.25rem;
+}
+.prose-invert li {
+  margin: 0.25rem 0;
+  padding-left: 0.25rem;
+}
+.prose-invert code {
+  color: #a89dff;
+  background: rgba(91,79,255,0.12);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+/* Admin markdown editor preview */
+.markdown-preview h1 { font-size: 1.5rem; font-weight: 800; color: rgba(255,255,255,0.9); margin: 0.75rem 0 0.5rem; font-family: 'Space Grotesk', sans-serif; }
+.markdown-preview h2 { font-size: 1.25rem; font-weight: 700; color: rgba(255,255,255,0.85); margin: 0.75rem 0 0.5rem; font-family: 'Space Grotesk', sans-serif; }
+.markdown-preview h3 { font-size: 1.1rem; font-weight: 600; color: rgba(255,255,255,0.8); margin: 0.5rem 0; font-family: 'Space Grotesk', sans-serif; }
+.markdown-preview p { color: rgba(255,255,255,0.6); line-height: 1.7; margin: 0.5rem 0; }
+.markdown-preview strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+.markdown-preview em { color: rgba(168,157,255,0.9); font-style: italic; }
+.markdown-preview ul { list-style: disc; padding-left: 1.5rem; color: rgba(255,255,255,0.6); }
+.markdown-preview ol { list-style: decimal; padding-left: 1.5rem; color: rgba(255,255,255,0.6); }
+.markdown-preview li { margin: 0.3rem 0; }
+.markdown-preview code { color: #a89dff; background: rgba(91,79,255,0.12); padding: 0.1em 0.4em; border-radius: 4px; font-size: 0.85em; }
+.markdown-preview hr { border-color: rgba(255,255,255,0.08); margin: 1rem 0; }
