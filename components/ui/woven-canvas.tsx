@@ -11,17 +11,23 @@ export const WovenCanvas = () => {
 
     const mount = mountRef.current;
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const clock = new THREE.Clock();
+
+    // Initial safe size — will be corrected by ResizeObserver
+    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
     camera.position.z = 5;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Canvas fills container via CSS; pixel res is set separately
+    renderer.domElement.style.width = "100%";
+    renderer.domElement.style.height = "100%";
+    renderer.domElement.style.display = "block";
+
     mount.appendChild(renderer.domElement);
 
-    // Mouse in world-space coordinates
-    const mouse = new THREE.Vector2(9999, 9999); // start off-screen
-    const clock = new THREE.Clock();
+    const mouse = new THREE.Vector2(9999, 9999);
 
     const particleCount = 35000;
     const positions = new Float32Array(particleCount * 3);
@@ -68,20 +74,13 @@ export const WovenCanvas = () => {
     const points = new THREE.Points(geometry, material);
     scene.add(points);
 
-    // Track mouse relative to the section, converted to world-space
     const handleMouseMove = (e: MouseEvent) => {
       const rect = mount.getBoundingClientRect();
-      // Map to [-1, 1] in viewport, then scale to world units
       mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
     };
+    const handleMouseLeave = () => mouse.set(9999, 9999);
 
-    const handleMouseLeave = () => {
-      // Push mouse far away so particles return to rest
-      mouse.set(9999, 9999);
-    };
-
-    // Listen on the section container so it works through overlays
     const section = mount.parentElement || window;
     section.addEventListener("mousemove", handleMouseMove as EventListener);
     section.addEventListener("mouseleave", handleMouseLeave as EventListener);
@@ -91,46 +90,33 @@ export const WovenCanvas = () => {
     const animate = () => {
       rafId = requestAnimationFrame(animate);
       const elapsed = clock.getElapsedTime();
-
-      // Mouse world position (scaled by camera FOV approximation)
       const mouseWorld = new THREE.Vector3(mouse.x * 3.5, mouse.y * 3.5, 0);
-
       const posArray = geometry.attributes.position.array as Float32Array;
 
       for (let i = 0; i < particleCount; i++) {
         const ix = i * 3, iy = i * 3 + 1, iz = i * 3 + 2;
-
         const cx = posArray[ix], cy = posArray[iy], cz = posArray[iz];
         const ox = originalPositions[ix], oy = originalPositions[iy], oz = originalPositions[iz];
         let vx = velocities[ix], vy = velocities[iy], vz = velocities[iz];
 
-        // Repulsion from cursor
         const dx = cx - mouseWorld.x;
         const dy = cy - mouseWorld.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-
         if (dist < 2.0 && dist > 0.001) {
           const force = Math.pow((2.0 - dist) / 2.0, 2) * 0.035;
           vx += (dx / dist) * force;
           vy += (dy / dist) * force;
         }
 
-        // Spring back to original position
         vx += (ox - cx) * 0.0015;
         vy += (oy - cy) * 0.0015;
         vz += (oz - cz) * 0.0015;
-
-        // Damping
-        vx *= 0.92;
-        vy *= 0.92;
-        vz *= 0.92;
+        vx *= 0.92; vy *= 0.92; vz *= 0.92;
 
         posArray[ix] = cx + vx;
         posArray[iy] = cy + vy;
         posArray[iz] = cz + vz;
-        velocities[ix] = vx;
-        velocities[iy] = vy;
-        velocities[iz] = vz;
+        velocities[ix] = vx; velocities[iy] = vy; velocities[iz] = vz;
       }
 
       geometry.attributes.position.needsUpdate = true;
@@ -140,16 +126,22 @@ export const WovenCanvas = () => {
 
     animate();
 
-    const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    };
-    window.addEventListener("resize", handleResize);
+    // ResizeObserver: resize renderer whenever the container changes size
+    const ro = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+        if (width > 0 && height > 0) {
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix();
+          renderer.setSize(width, height, false); // false = don't override CSS style
+        }
+      }
+    });
+    ro.observe(mount);
 
     return () => {
       cancelAnimationFrame(rafId);
-      window.removeEventListener("resize", handleResize);
+      ro.disconnect();
       section.removeEventListener("mousemove", handleMouseMove as EventListener);
       section.removeEventListener("mouseleave", handleMouseLeave as EventListener);
       if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);

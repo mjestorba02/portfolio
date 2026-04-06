@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CardStack, CardStackItem } from "@/components/ui/card-stack";
 import { Card3D } from "@/components/ui/card-3d";
 import { supabase, type Project } from "@/lib/supabase";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import useEmblaCarousel from "embla-carousel-react";
 
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
   useEffect(() => {
@@ -115,6 +116,173 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
   );
 }
 
+// ── Mobile-only stories-style horizontal carousel ──────────────────────────
+function MobileProjectCarousel({
+  projects,
+  onProjectClick,
+}: {
+  projects: Project[];
+  onProjectClick: (p: Project) => void;
+}) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", dragFree: true });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const handleEmblaSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    emblaApi.on("select", handleEmblaSelect);
+    return () => { emblaApi.off("select", handleEmblaSelect); };
+  }, [emblaApi, handleEmblaSelect]);
+
+  return (
+    <div>
+      {/* Embla viewport */}
+      <div ref={emblaRef} style={{ overflow: "hidden", margin: "0 -24px" }}>
+        <div style={{ display: "flex", gap: "12px", paddingLeft: "24px", paddingRight: "24px" }}>
+          {projects.map((project) => (
+            <div
+              key={project.id}
+              onClick={() => onProjectClick(project)}
+              style={{
+                flexShrink: 0,
+                width: "160px",
+                cursor: "pointer",
+              }}
+            >
+              {/* Story-style card: 3/4 aspect ratio */}
+              <div
+                style={{
+                  position: "relative",
+                  width: "160px",
+                  height: "213px",
+                  borderRadius: "14px",
+                  overflow: "hidden",
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.07)",
+                  transition: "transform 0.2s, border-color 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = "scale(1.03)";
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(91,79,255,0.4)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.07)";
+                }}
+              >
+                {/* Image */}
+                {project.picture_url ? (
+                  <img
+                    src={project.picture_url}
+                    alt={project.title}
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background: "linear-gradient(135deg, rgba(91,79,255,0.15) 0%, rgba(9,9,11,0.9) 100%)",
+                    }}
+                  />
+                )}
+
+                {/* Top gradient */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: "48px",
+                    background: "linear-gradient(to bottom, rgba(0,0,0,0.5), transparent)",
+                    pointerEvents: "none",
+                  }}
+                />
+                {/* Bottom gradient + title */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    padding: "10px",
+                    background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)",
+                    paddingTop: "32px",
+                  }}
+                >
+                  <p
+                    style={{
+                      fontSize: "0.7rem",
+                      fontWeight: 600,
+                      color: "#FAFAFA",
+                      fontFamily: "'Space Grotesk', sans-serif",
+                      lineHeight: 1.3,
+                      margin: 0,
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {project.title}
+                  </p>
+                </div>
+
+                {/* Purple glow badge on hover */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "8px",
+                    right: "8px",
+                    width: "6px",
+                    height: "6px",
+                    borderRadius: "50%",
+                    background: "#5B4FFF",
+                    boxShadow: "0 0 6px rgba(91,79,255,0.8)",
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Dot indicators */}
+      {projects.length > 1 && (
+        <div style={{ display: "flex", justifyContent: "center", gap: "6px", marginTop: "16px" }}>
+          {projects.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => emblaApi?.scrollTo(i)}
+              style={{
+                width: i === selectedIndex ? "16px" : "6px",
+                height: "6px",
+                borderRadius: "9999px",
+                background: i === selectedIndex ? "#5B4FFF" : "rgba(255,255,255,0.2)",
+                border: "none",
+                padding: 0,
+                cursor: "pointer",
+                transition: "width 0.3s, background 0.3s",
+              }}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ProjectsSection() {
   const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
   const [allProjects, setAllProjects] = useState<Project[]>([]);
@@ -200,23 +368,41 @@ export default function ProjectsSection() {
           </p>
         </div>
 
-        {/* CardStack */}
+        {/* ── Desktop: CardStack ── */}
         {loading ? (
-          <div className="flex justify-center py-32">
+          <div className="hidden md:flex justify-center py-32">
             <div className="w-10 h-10 border-2 border-[#5B4FFF]/30 border-t-[#5B4FFF] rounded-full animate-spin" />
           </div>
         ) : featuredItems.length > 0 ? (
-          <CardStack
-            items={featuredItems}
-            autoAdvance
-            intervalMs={3000}
-            pauseOnHover
-            showDots
-            cardWidth={500}
-            cardHeight={300}
-          />
+          <div className="hidden md:block">
+            <CardStack
+              items={featuredItems}
+              autoAdvance
+              intervalMs={3000}
+              pauseOnHover
+              showDots
+              cardWidth={500}
+              cardHeight={300}
+            />
+          </div>
         ) : (
-          <div className="text-center py-20 text-white/30">No featured projects yet.</div>
+          <div className="hidden md:block text-center py-20 text-white/30">No featured projects yet.</div>
+        )}
+
+        {/* ── Mobile: Stories carousel ── */}
+        {loading ? (
+          <div className="md:hidden flex justify-center py-16">
+            <div className="w-8 h-8 border-2 border-[#5B4FFF]/30 border-t-[#5B4FFF] rounded-full animate-spin" />
+          </div>
+        ) : featuredProjects.length > 0 ? (
+          <div className="md:hidden">
+            <MobileProjectCarousel
+              projects={featuredProjects}
+              onProjectClick={(p) => setSelectedProject(p)}
+            />
+          </div>
+        ) : (
+          <div className="md:hidden text-center py-16 text-white/30 text-sm">No projects yet.</div>
         )}
 
         {/* View All button */}
