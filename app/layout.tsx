@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Mark John Estorba — Full Stack Developer",
+  title: "Capstone Studio — Project Creation Service",
   description:
-    "Portfolio of Mark John M. Estorba, a Full Stack Developer specializing in building dynamic web applications with React, Next.js, Laravel, and more.",
+    "Anonymous capstone project creation service for clean, functional web systems, dashboards, databases, and documentation-ready project builds.",
 };
 
 export default function RootLayout({

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { supabase, type Project, type Contact } from "@/lib/supabase";
 import ReactMarkdown from "react-markdown";
@@ -344,15 +344,7 @@ export default function AdminDashboard() {
   const [editProject, setEditProject] = useState<Project | null | "new">(null);
   const [expandedContact, setExpandedContact] = useState<string | null>(null);
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) router.replace("/admin");
-    });
-    fetchProjects();
-    fetchContacts();
-  }, [router]);
-
-  const fetchProjects = async () => {
+  const fetchProjects = useCallback(async () => {
     setLoadingProjects(true);
     const { data } = await supabase
       .from("projects")
@@ -360,9 +352,9 @@ export default function AdminDashboard() {
       .order("featured_order", { ascending: true });
     setProjects(data || []);
     setLoadingProjects(false);
-  };
+  }, []);
 
-  const fetchContacts = async () => {
+  const fetchContacts = useCallback(async () => {
     setLoadingContacts(true);
     const { data } = await supabase
       .from("contacts")
@@ -370,7 +362,18 @@ export default function AdminDashboard() {
       .order("created_at", { ascending: false });
     setContacts(data || []);
     setLoadingContacts(false);
-  };
+  }, []);
+
+  useEffect(() => {
+    async function loadDashboard() {
+      await Promise.all([fetchProjects(), fetchContacts()]);
+    }
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) router.replace("/admin");
+    });
+    loadDashboard();
+  }, [router, fetchProjects, fetchContacts]);
 
   const deleteProject = async (id: string) => {
     if (!confirm("Delete this project?")) return;
@@ -416,7 +419,7 @@ export default function AdminDashboard() {
             className="text-white font-bold text-base tracking-tight"
             style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif" }}
           >
-            Portfolio Admin
+            Capstone Studio Admin
           </span>
         </div>
         <div className="flex items-center gap-4">

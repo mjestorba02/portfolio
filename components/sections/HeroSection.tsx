@@ -215,13 +215,13 @@ export default function HeroSection() {
               fontFamily: "'Space Grotesk', sans-serif",
             }}
           >
-            Available for Projects
+            Capstone Project Service
           </span>
         </div>
 
         {/* Name block */}
         <div style={{ lineHeight: 1, marginBottom: "16px" }}>
-          {/* MARK JOHN — solid white */}
+          {/* Main title — solid white */}
           <div
             style={{
               fontSize: "clamp(2.4rem, 5.5vw, 5rem)",
@@ -233,9 +233,9 @@ export default function HeroSection() {
               lineHeight: 1,
             }}
           >
-            MARK JOHN
+            CAPSTONE
           </div>
-          {/* ESTORBA — outlined */}
+          {/* Supporting title — outlined */}
           <div
             style={{
               fontSize: "clamp(2.4rem, 5.5vw, 5rem)",
@@ -249,7 +249,7 @@ export default function HeroSection() {
               color: "transparent",
             }}
           >
-            ESTORBA
+            STUDIO
           </div>
         </div>
 
@@ -264,7 +264,7 @@ export default function HeroSection() {
               marginTop: "2px",
             }}
           >
-            //
+            {"//"}
           </span>
           <div>
             <div
@@ -277,7 +277,7 @@ export default function HeroSection() {
                 textTransform: "uppercase",
               }}
             >
-              FULL STACK DEVELOPER
+              WEB SYSTEMS / DOCUMENTATION
             </div>
             <div
               style={{
@@ -289,7 +289,7 @@ export default function HeroSection() {
                 textTransform: "uppercase",
               }}
             >
-              PHILIPPINES
+              ANONYMOUS PROJECT CREATION
             </div>
           </div>
         </div>
@@ -330,7 +330,7 @@ export default function HeroSection() {
             el.style.background = "rgba(255,255,255,0.04)";
           }}
         >
-          // LET&apos;S TALK
+          {"// START A PROJECT"}
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 17L17 7M7 7h10v10" />
           </svg>

@@ -93,7 +93,7 @@ export default function Navbar() {
               fontFamily: "'Space Grotesk', sans-serif",
             }}
           >
-            MJE Portfolio
+            Capstone Studio
           </span>
         </a>
 
@@ -163,7 +163,7 @@ export default function Navbar() {
             el.style.background = "transparent";
           }}
         >
-          // LET&apos;S TALK
+          {"// INQUIRE"}
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 17L17 7M7 7h10v10" />
           </svg>

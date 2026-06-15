@@ -67,8 +67,8 @@ export default function AdminLogin() {
           alt: "Admin panel",
         },
         quote: {
-          text: "Manage your portfolio. Craft your story.",
-          author: "MJE Portfolio Admin",
+          text: "Manage project samples, inquiries, and service content.",
+          author: "Capstone Studio Admin",
         },
       }}
     />

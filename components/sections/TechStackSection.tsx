@@ -73,7 +73,7 @@ export default function TechStackSection() {
             margin: 0,
           }}
         >
-          Tools I Work With
+          Tools Used For Capstone Builds
         </h2>
       </div>
 

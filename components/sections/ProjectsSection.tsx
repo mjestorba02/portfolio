@@ -354,17 +354,17 @@ export default function ProjectsSection() {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 mb-4 px-3 py-1.5 rounded-full border border-[#5B4FFF]/30 bg-[#5B4FFF]/10">
             <span className="text-xs text-[#a89dff] font-medium tracking-wider uppercase">
-              My Work
+              Project Builds
             </span>
           </div>
           <h2
             className="text-4xl md:text-5xl font-black text-white tracking-[-0.03em]"
             style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif" }}
           >
-            Featured Projects
+            Capstone Project Samples
           </h2>
           <p className="mt-3 text-white/40 text-sm max-w-md mx-auto">
-            A selection of projects I&apos;ve built — drag the cards or click to explore
+            Sample systems and implementation styles available for capstone builds
           </p>
         </div>
 
@@ -411,7 +411,7 @@ export default function ProjectsSection() {
             onClick={() => setShowAll(true)}
             className="group inline-flex items-center gap-2 px-8 py-4 rounded-xl border border-white/10 text-white/70 text-sm font-semibold hover:border-[#5B4FFF]/50 hover:text-white hover:bg-[#5B4FFF]/10 transition-all duration-300"
           >
-            View All Projects
+            View All Samples
             <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
@@ -435,7 +435,7 @@ export default function ProjectsSection() {
                   className="text-3xl font-black text-white tracking-tight"
                   style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif" }}
                 >
-                  All Projects
+                  All Samples
                 </h2>
                 <button
                   onClick={() => setShowAll(false)}

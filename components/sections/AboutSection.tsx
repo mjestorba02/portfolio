@@ -113,7 +113,7 @@ export default function AboutSection() {
                 fontFamily: "'Space Grotesk', sans-serif",
               }}
             >
-              About Me
+              Service
             </span>
           </div>
 
@@ -128,7 +128,7 @@ export default function AboutSection() {
               margin: 0,
             }}
           >
-            Turning ideas into
+            Capstone ideas into
             <br />
             <span
               style={{
@@ -138,7 +138,7 @@ export default function AboutSection() {
                 backgroundClip: "text",
               }}
             >
-              working systems
+              complete systems
             </span>
           </h2>
 
@@ -154,11 +154,11 @@ export default function AboutSection() {
                 margin: 0,
               }}
             >
-              I&apos;m a{" "}
-              <strong style={{ color: "#FAFAFA", fontWeight: 600 }}>Full Stack Developer</strong>{" "}
-              specializing in building dynamic and functional web applications. I work as a freelance
-              developer helping students create their capstone website projects, turning their ideas
-              into fully working systems.
+              A professional{" "}
+              <strong style={{ color: "#FAFAFA", fontWeight: 600 }}>capstone project creation service</strong>{" "}
+              focused on building dynamic, functional web applications for academic project
+              requirements. Ideas are shaped into working systems with clear structure, clean
+              interfaces, and practical features.
             </p>
             <p
               style={{
@@ -169,9 +169,9 @@ export default function AboutSection() {
                 margin: 0,
               }}
             >
-              I craft clean, performant interfaces with modern frameworks and pair them with robust
-              backend APIs — delivering end-to-end solutions that are both reliable and easy to
-              maintain.
+              Each build pairs polished frontend screens with reliable backend logic, database
+              structure, and documentation-friendly implementation details so the final project is
+              easier to present, explain, and maintain.
             </p>
           </div>
 
@@ -185,8 +185,8 @@ export default function AboutSection() {
             }}
           >
             {[
-              { icon: "⚡", title: "Fast Delivery", desc: "Clean code shipped on schedule" },
-              { icon: "🎯", title: "Detail Oriented", desc: "Pixel-perfect implementation" },
+              { icon: "⚡", title: "Fast Delivery", desc: "Milestone-focused builds" },
+              { icon: "🎯", title: "Clear Scope", desc: "Features matched to requirements" },
               { icon: "🔧", title: "Full Stack", desc: "Frontend + Backend + DB" },
               { icon: "📱", title: "Responsive", desc: "Mobile-first, every screen" },
             ].map((item) => (
@@ -282,7 +282,7 @@ export default function AboutSection() {
                     fontSize: "1.2rem",
                   }}
                 >
-                  👨‍💻
+                  CS
                 </div>
                 <div>
                   <div
@@ -293,7 +293,7 @@ export default function AboutSection() {
                       fontFamily: "'Space Grotesk', sans-serif",
                     }}
                   >
-                    Mark John Estorba
+                    Capstone Studio
                   </div>
                   <div
                     style={{
@@ -302,7 +302,7 @@ export default function AboutSection() {
                       fontFamily: "'Inter', sans-serif",
                     }}
                   >
-                    Full Stack Developer
+                    Project Creation Service
                   </div>
                 </div>
               </div>
@@ -374,7 +374,7 @@ export default function AboutSection() {
                     fontFamily: "'Inter', sans-serif",
                   }}
                 >
-                  Email
+                  Contact
                 </div>
                 <div
                   style={{
@@ -383,7 +383,7 @@ export default function AboutSection() {
                     fontFamily: "'Inter', sans-serif",
                   }}
                 >
-                  emjey.estorba.02@gmail.com
+                  Use the project inquiry form below
                 </div>
               </div>
             </div>

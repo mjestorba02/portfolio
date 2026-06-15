@@ -56,8 +56,9 @@ export default function ContactSection() {
               className="mt-6 text-base text-white/50 leading-relaxed max-w-md"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
-              Have a project in mind? Need a capstone system, a custom web app, or just want to chat?
-              Send me a message and I&apos;ll get back to you.
+              Need a capstone system, dashboard, database-backed web app, or documentation-ready
+              prototype? Send the project details and receive a clear response on scope and next
+              steps.
             </p>
 
             <div className="mt-10 space-y-4">
@@ -68,10 +69,10 @@ export default function ContactSection() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-xs text-white/30 mb-0.5">Email</div>
-                  <a href="mailto:emjey.estorba.02@gmail.com" className="text-sm text-white/70 hover:text-white transition-colors">
-                    emjey.estorba.02@gmail.com
-                  </a>
+                  <div className="text-xs text-white/30 mb-0.5">Inquiry</div>
+                  <div className="text-sm text-white/70">
+                    Project details, timeline, and requirements
+                  </div>
                 </div>
               </div>
 
@@ -83,8 +84,8 @@ export default function ContactSection() {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-xs text-white/30 mb-0.5">Location</div>
-                  <div className="text-sm text-white/70">Philippines</div>
+                  <div className="text-xs text-white/30 mb-0.5">Service Type</div>
+                  <div className="text-sm text-white/70">Remote capstone project builds</div>
                 </div>
               </div>
             </div>
@@ -122,7 +123,7 @@ export default function ContactSection() {
                       required
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      placeholder="Mark John"
+                      placeholder="Your name"
                       className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/8 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-[#5B4FFF]/50 focus:bg-[#5B4FFF]/5 transition-all"
                     />
                   </div>
@@ -145,7 +146,7 @@ export default function ContactSection() {
                     type="text"
                     value={form.subject}
                     onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                    placeholder="Project inquiry, collaboration..."
+                    placeholder="Capstone project inquiry..."
                     className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/8 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-[#5B4FFF]/50 focus:bg-[#5B4FFF]/5 transition-all"
                   />
                 </div>
@@ -157,7 +158,7 @@ export default function ContactSection() {
                     rows={5}
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    placeholder="Tell me about your project..."
+                    placeholder="Tell us about the project title, required features, deadline, and preferred tech stack..."
                     className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/8 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-[#5B4FFF]/50 focus:bg-[#5B4FFF]/5 transition-all resize-none"
                   />
                 </div>
